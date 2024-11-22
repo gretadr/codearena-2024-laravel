@@ -27,4 +27,24 @@
         </div>
       </div>
     </div>
-  </article>
+    <section class="col-span-8 col-start-5 mt-10 space-y-6">
+      {{-- @include ('add_comment_form') --}}
+
+      {{-- @foreach ($post->comments as $comment)
+          <x-post-comment :comment="$comment"/>
+      @endforeach --}}
+      @foreach ($post->comments as $comment)
+        <div>
+            <p>{{ $comment->body }}</p>
+            <p>By {{ $comment->name }}</p>
+            <!-- Add a form with the Delete button -->
+            <form action="{{ route('comments.destroy', $comment) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+      @endforeach
+    </section>
+
+</article>

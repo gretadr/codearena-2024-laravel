@@ -391,6 +391,17 @@ class BlogTest extends TestCase
      */
     public function testBlogPostsPageHasPagination()
     {
-        $this->markTestIncomplete();
+        $user = User::factory()->create(); 
+        Post::factory()->count(15)->create(['user_id' => $user->id]);  
+
+        $response = $this->get(route('posts'));  
+
+        $response->assertStatus(200);
+
+        $response->assertSee('Next');  
+        $response->assertSee('Previous');  
+
+        $response->assertSee(Post::first()->title);  
+        $response->assertSee(Post::skip(1)->take(12)->last()->title);  
     }
 }
